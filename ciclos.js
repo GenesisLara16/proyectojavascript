@@ -1,40 +1,53 @@
-function generateNumber(max) {
+//funciones 
+
+function generateNumber (max) {
     return Math.floor(Math.random() * max)
 }
 
-function tryNumber() {
-    let num = document.getElementById("answerBox").value
-
-    if (num == secretNumber) {
-        document.getElementById("correctNumber").innerHTML = secretNumber
-        document.getElementById("intronum").style.display = "none"
-        document.getElementById("answer").style.display = "block"
-    } else if (num < secretNumber) {
-        alert ("el número secreto es mayor")
+function tryNumber (mind, secret) {
+    if (mind == secret) {
+        alert ("¡Felicidades! El número es el " + secret) 
+        return true
+    } else if (mind < secret) {
+        alert ("El número secreto es mayor que " + mind)
     } else {
-        alert ("el número secreto es menor")
+        alert ("El número secreto es menor que " + mind)
     }
+    return false
 }
 
-function resetGame(){
-    secretNumber = generateNumber(500)
-    document.getElementById("intronum").style.display = "block"
-    document.getElementById("answer").style.display = "none"
+function askRiddle () {
+    return prompt ("En este banco están sentados un padre y un hijo, el padre se llama Juan y el hijo ya te lo he dicho. ¿Cómo se llama el hijo?")
 }
 
-let riddleAnswer = prompt ("En este banco están sentados un padre y un hijo, el padre se llama Juan y el hijo ya te lo he dicho. ¿Cómo se llama el hijo?")
+function askNumber () {
+    return prompt ("Estoy pensando en un número entre 0 y 500. ¿Qué número es?")
+}
+
+//el usuario debe contestar correctamnte a la  adivinanza para poder jugar a LEEME LA MENTE
+
+let riddleAnswer = askRiddle ()
+console.log ("El usuario ha respondido: " + riddleAnswer)
 
 while ((riddleAnswer != "Esteban") && (riddleAnswer != "esteban")){
     alert ("Eres un Caca, " + riddleAnswer + " no es la respuesta. Vuelve a intentarlo.")
-    riddleAnswer = prompt ("En este banco están sentados un padre y un hijo, el padre se llama Juan y el hijo ya te lo he dicho. ¿Cómo se llama el hijo?")
+    riddleAnswer = askRiddle ()
+    console.log ("El usuario ha respondido: " + riddleAnswer)
 }
 
-alert("Correcto")
+alert ("Correcto. Ahora trata de leerme la mente")
+
+
+//aqui empieza el juego LEEME LA MENTE 
+//Variables
+
+let mindAnswer = askNumber ()
+console.log ("El usuario ha respondido: " + mindAnswer)
 
 let secretNumber = generateNumber(500)
+console.log ("Ha puesto el número " + secretNumber)
 
-document.getElementById("answerButton").onclick = tryNumber
-
-document.getElementById("resetButton").onclick = resetGame
-
-
+while (!tryNumber (mindAnswer, secretNumber)){
+    mindAnswer = askNumber ()
+    console.log ("El usuario ha respondido " +  mindAnswer)
+}
